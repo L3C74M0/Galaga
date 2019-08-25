@@ -8,9 +8,8 @@ public class Battlefield {
 	private int[][] coefficientMatrix;
 	private int[][] lastBattleMatrix;
 	private int[][] currentBattleMatrix;
-	private ArrayList<String> enemyShips;
-	
-	
+	private ArrayList<String> positionOfTheEnemyShips;
+
 	protected int[] primeNumbers;
 
 	/*
@@ -126,14 +125,17 @@ public class Battlefield {
 
 		return currentBattleMatrix;
 	}
-	
+
 	/*
 	 * The method serves to verify if a number less than 2601 (because it is the
 	 * highest value with which we are going to work this project) is prime
 	 * 
 	 * @param int number which is what we are going to test if it is cousin or not
+	 * 
 	 * pre: The matrix of prime numbers, has to have all the prime numbers less than
-	 * 2601 pre: The number received by parameter cannot be negative
+	 * 2601
+	 * 
+	 * pre: The number received by parameter cannot be negative
 	 * 
 	 * @return boolean that indicates whether the number received by parameter is a
 	 * prime number or not
@@ -147,7 +149,6 @@ public class Battlefield {
 			int low = 0;
 			int high = primeNumbers.length - 1;
 			int middle;
-			int position;
 
 			for (int I = 0; I < primeNumbers.length && isPrime == false; I++) {
 				middle = (high + low) / 2;
@@ -166,18 +167,36 @@ public class Battlefield {
 		} else {
 			// excepcion personalizada >>> YouCannotWorkWithNegativeNumbersException
 		}
-		
+
 		return isPrime;
 	}
-	
-	
-	public void identifyEnemyShips() {
-		
+
+	/*
+	 * The function of the method is to find the prime numbers (enemy ships) in the
+	 * current battle matrix
+	 * 
+	 * @param int[][] current battle matrix 
+	 * 
+	 * pre: The current battle matrix must be
+	 * different from null 
+	 * 
+	 * pre: The matrix of prime numbers, has to have all the
+	 * prime numbers less than 2601
+	 * 
+	 * post: The positions of the prime numbers (enemy ships) found were saved in
+	 * the ArrayList positionOfTheEnemyShips
+	 * 
+	 */
+	public void identifyEnemyShips(int[][] currentBattleMatrix) {
+
+		for (int I = 0; I < currentBattleMatrix.length; I++) {
+			for (int J = 0; J < currentBattleMatrix[I].length; J++) {
+				if (isPrime(currentBattleMatrix[I][J])) {
+					positionOfTheEnemyShips.add(I + " " + J);
+				}
+			}
+		}
 	}
-	
-	
-	
-	
 	
 	// Getters and Setters
 
