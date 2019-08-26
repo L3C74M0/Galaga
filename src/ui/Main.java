@@ -1,9 +1,10 @@
 package ui;
 	
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
@@ -12,10 +13,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("").toExternalForm());
-			primaryStage.setScene(scene);
+			Parent root = FXMLLoader.load(getClass().getResource("battlefieldGUI.fxml"));
+			primaryStage.setScene(new Scene(root));
+			primaryStage.setTitle("BattleField Calculator");
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
