@@ -42,8 +42,8 @@ public class Battlefield {
 		lastBattleMatrix = new int[numberOfRows][numberOfColumns];
 
 		if (repeatedValues) {
-			for (int I = 0; I < lastBattleMatrix.length - 1; I++) {
-				for (int J = 0; J < lastBattleMatrix[I].length - 1; J++) {
+			for (int I = 0; I < lastBattleMatrix.length; I++) {
+				for (int J = 0; J < lastBattleMatrix[I].length; J++) {
 					lastBattleMatrix[I][J] = random.nextInt(100) + 1;
 				}
 			}
@@ -95,8 +95,8 @@ public class Battlefield {
 		coefficientMatrix = new int[numberOfRows][numberOfColumns];
 
 		if (repeatedValues) {
-			for (int I = 0; I < coefficientMatrix.length - 1; I++) {
-				for (int J = 0; J < coefficientMatrix[I].length - 1; J++) {
+			for (int I = 0; I < coefficientMatrix.length; I++) {
+				for (int J = 0; J < coefficientMatrix[I].length; J++) {
 					coefficientMatrix[I][J] = random.nextInt(100) + 1;
 				}
 			}
@@ -142,28 +142,24 @@ public class Battlefield {
 	 * @return The product of the matrices that arrived by parameter
 	 * 
 	 */
-	public int[][] multiplyMatrices() throws Exception {
-		if(lastBattleMatrix!=null || coefficientMatrix!=null) {
-			int[][] currentBattleMatrix = new int[lastBattleMatrix.length][coefficientMatrix[0].length];
-
-			if (lastBattleMatrix[0].length == coefficientMatrix.length) {
-				for (int I = 0; I < lastBattleMatrix.length; I++) {
-					for (int J = 0; J < coefficientMatrix[0].length; J++) {
-						for (int K = 0; K < lastBattleMatrix[0].length; K++) {
-							currentBattleMatrix[I][J] += lastBattleMatrix[I][K] * coefficientMatrix[K][J];
-						}
-					}
-				}
-			} else {
-				throw new Exception("It is impossible to multiply the Matrices");
-			}
-		}else {
-			
-		}
-		
-		return currentBattleMatrix;
+	public int[][]  multiplyMatrices() throws Exception {
+	    currentBattleMatrix = new int[lastBattleMatrix.length][coefficientMatrix[0].length];
+	    
+	    if (lastBattleMatrix[0].length == coefficientMatrix.length) {
+	        for (int I = 0; I < lastBattleMatrix.length; I++) {
+	            for (int J = 0; J < coefficientMatrix[0].length; J++) {
+	                for (int K = 0; K < lastBattleMatrix[0].length; K++) {
+	                    currentBattleMatrix[I][J] += lastBattleMatrix[I][K] * coefficientMatrix[K][J];
+	                }
+	            }
+	        }
+	    }else {
+	    	throw new Exception("It is impossible to multiply the Matrices");
+	    }
+	    
+	    return currentBattleMatrix;
 	}
-
+	
 	/*
 	 * The method serves to verify if a number is prime
 	 * 
@@ -211,7 +207,7 @@ public class Battlefield {
 	 * the ArrayList positionOfTheEnemyShips
 	 * 
 	 */
-	public void identifyEnemyShips(int[][] currentBattleMatrix) throws Exception {
+	public void identifyEnemyShips() throws Exception {
 
 		for (int I = 0; I < currentBattleMatrix.length; I++) {
 			for (int J = 0; J < currentBattleMatrix[I].length; J++) {
@@ -246,5 +242,9 @@ public class Battlefield {
 
 	public void setCurrentBattleMatrix(int[][] currentBattleMatrix) {
 		this.currentBattleMatrix = currentBattleMatrix;
+	}
+	
+	public ArrayList<String> getPositionOfTheEnemyShips() {
+		return positionOfTheEnemyShips;
 	}
 }

@@ -12,7 +12,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("battlefieldGUI.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("BattlefieldGUI.fxml"));
 			primaryStage.setScene(new Scene(root));
 			primaryStage.setTitle("BattleField Calculator");
 			primaryStage.setResizable(false);

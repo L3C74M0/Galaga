@@ -6,8 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.stage.StageStyle;
@@ -50,7 +53,7 @@ public class BatlefieldGUIController {
 	private ColumnConstraints CurrentBattleMatrix;
 
 	@FXML
-	void generateCurrentBattleMatrix(ActionEvent event) {
+	private void generateCurrentBattleMatrix(ActionEvent event) {
 		if (theLastBattleMatrixHasBeenCreated && theCoefficientMatrixHasBeenCreated) {
 			try {
 				battlefield.multiplyMatrices();
@@ -58,6 +61,7 @@ public class BatlefieldGUIController {
 				numberOfColumnsInTheLastBattleMatrix.setText("");
 				numberOfRowsInTheCoefficientMatrix.setText("");
 				numberOfColumnsInTheCoefficientMatrix.setText("");
+				printCurrentMatrix();
 			} catch (Exception e) {
 				Alert info = new Alert(AlertType.ERROR);
 				info.setTitle("ERROR");
@@ -80,7 +84,7 @@ public class BatlefieldGUIController {
 	}
 
 	@FXML
-	void generateLastBattleMatrix(ActionEvent event) {
+	private void generateLastBattleMatrix(ActionEvent event) {
 		try {
 			int rows = Integer.parseInt(numberOfRowsInTheLastBattleMatrix.getText());
 			int columns = Integer.parseInt(numberOfColumnsInTheLastBattleMatrix.getText());
@@ -98,7 +102,7 @@ public class BatlefieldGUIController {
 	}
 
 	@FXML
-	void generateMatrixOfCoefficients(ActionEvent event) {
+	private void generateMatrixOfCoefficients(ActionEvent event) {
 		try {
 			int rows = Integer.parseInt(numberOfRowsInTheCoefficientMatrix.getText());
 			int columns = Integer.parseInt(numberOfColumnsInTheCoefficientMatrix.getText());
@@ -116,7 +120,33 @@ public class BatlefieldGUIController {
 	}
 
 	@FXML
-	void initialize() {
+	private void initialize() {
 		battlefield = new Battlefield();
+	}
+
+	protected void printCurrentMatrix() {
+		currentBattleMatrix.getChildren().clear();
+
+		for (int I = 0; I < battlefield.getPositionOfTheEnemyShips().size(); I++) {
+			System.out.println("si cumple la condicion del for");
+			String[] temp = battlefield.getPositionOfTheEnemyShips().get(I).split(" ");
+			System.out.println("si hace el split 1");
+			int positionShipRow = Integer.parseInt(temp[0]);
+			int positionShipColumn = Integer.parseInt(temp[1]);
+			System.out.println("si hace el split");
+			Image img = new Image("images/ship.png");
+			ImageView imageView = new ImageView();
+			imageView.setImage(img);
+			imageView.setFitHeight(20);
+			imageView.setFitWidth(20);
+			System.out.println("si carga imagen");
+			Button button = new Button("");
+			button.setGraphic(imageView);
+			System.out.println("si se coloca la imagen bien");
+			GridPane.setConstraints(button, positionShipRow, positionShipColumn, 1, 1);
+			System.out.println("si se crea el grid pane");
+			currentBattleMatrix.getChildren().addAll(button);
+			System.out.println("si se agregan botones");
+		}
 	}
 }
