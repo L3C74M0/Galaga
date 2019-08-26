@@ -127,26 +127,30 @@ public class BatlefieldGUIController {
 	protected void printCurrentMatrix() {
 		currentBattleMatrix.getChildren().clear();
 
-		for (int I = 0; I < battlefield.getPositionOfTheEnemyShips().size(); I++) {
-			System.out.println("si cumple la condicion del for");
-			String[] temp = battlefield.getPositionOfTheEnemyShips().get(I).split(" ");
-			System.out.println("si hace el split 1");
-			int positionShipRow = Integer.parseInt(temp[0]);
-			int positionShipColumn = Integer.parseInt(temp[1]);
-			System.out.println("si hace el split");
-			Image img = new Image("images/ship.png");
-			ImageView imageView = new ImageView();
-			imageView.setImage(img);
-			imageView.setFitHeight(20);
-			imageView.setFitWidth(20);
-			System.out.println("si carga imagen");
-			Button button = new Button("");
-			button.setGraphic(imageView);
-			System.out.println("si se coloca la imagen bien");
-			GridPane.setConstraints(button, positionShipRow, positionShipColumn, 1, 1);
-			System.out.println("si se crea el grid pane");
-			currentBattleMatrix.getChildren().addAll(button);
-			System.out.println("si se agregan botones");
+		try {
+			battlefield.identifyEnemyShips();
+			if (battlefield.getPositionOfTheEnemyShips() != null
+					&& battlefield.getPositionOfTheEnemyShips().size() != 0) {
+				for (int I = 0; I < battlefield.getPositionOfTheEnemyShips().size(); I++) {
+					String[] temp = battlefield.getPositionOfTheEnemyShips().get(I).split(" ");
+					int positionShipRow = Integer.parseInt(temp[0]);
+					int positionShipColumn = Integer.parseInt(temp[1]);
+					Image img = new Image("images/ship.png");
+					ImageView imageView = new ImageView();
+					imageView.setImage(img);
+					imageView.setFitHeight(20);
+					imageView.setFitWidth(20);
+					Button button = new Button("");
+					button.setGraphic(imageView);
+					GridPane.setConstraints(button, positionShipRow, positionShipColumn, 1, 1);
+					currentBattleMatrix.getChildren().addAll(button);
+				}
+			} else {
+
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
 		}
 	}
 }

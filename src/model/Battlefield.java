@@ -18,7 +18,7 @@ public class Battlefield {
 	 * 
 	 */
 	public Battlefield() {
-
+		positionOfTheEnemyShips = new ArrayList<String>();
 	}
 
 	/*
@@ -44,24 +44,16 @@ public class Battlefield {
 		if (repeatedValues) {
 			for (int I = 0; I < lastBattleMatrix.length; I++) {
 				for (int J = 0; J < lastBattleMatrix[I].length; J++) {
-					lastBattleMatrix[I][J] = random.nextInt(100) + 1;
+					lastBattleMatrix[I][J] = random.nextInt(10) + 1;
 				}
 			}
 		} else {
-			int[] numbers = new int[numberOfRows*numberOfColumns];
-			for (int I = 1; I < numberOfRows*numberOfColumns; I++) {
+			int[] numbers = new int[numberOfRows * numberOfColumns];
+			for (int I = 1; I < numberOfRows * numberOfColumns; I++) {
 				numbers[I] = I;
 			}
-			
-			//Mess up the numbers
-			for (int I = numbers.length; I > 0; I--) {
-			    int posicion = random.nextInt(I);
-			    int tmp = numbers[I-1];
-			    numbers[I - 1] = numbers[posicion];
-			    numbers[posicion] = tmp;
-			}
-			
-			//Add the numbers to the matrix
+
+			// Add the numbers to the matrix
 			int numberTemp = 0;
 			for (int I = 0; I < lastBattleMatrix.length; I++) {
 				for (int J = 0; J < lastBattleMatrix.length; J++) {
@@ -90,31 +82,22 @@ public class Battlefield {
 	 * @return The last battle matrix, filled with random integers between 1 and 51
 	 * 
 	 */
-	public int[][] generateTheCoefficientMatrix(int numberOfRows, int numberOfColumns,  boolean repeatedValues) {
+	public int[][] generateTheCoefficientMatrix(int numberOfRows, int numberOfColumns, boolean repeatedValues) {
 		Random random = new Random();
 		coefficientMatrix = new int[numberOfRows][numberOfColumns];
 
 		if (repeatedValues) {
 			for (int I = 0; I < coefficientMatrix.length; I++) {
 				for (int J = 0; J < coefficientMatrix[I].length; J++) {
-					coefficientMatrix[I][J] = random.nextInt(100) + 1;
+					coefficientMatrix[I][J] = random.nextInt(10) + 1;
 				}
 			}
 		} else {
-			int[] numbers = new int[numberOfRows*numberOfColumns];
-			for (int I = 1; I < numberOfRows*numberOfColumns; I++) {
+			int[] numbers = new int[numberOfRows * numberOfColumns];
+			for (int I = 1; I < numberOfRows * numberOfColumns; I++) {
 				numbers[I] = I;
 			}
-			
-			//Mess up the numbers
-			for (int I = numbers.length; I > 0; I--) {
-			    int posicion = random.nextInt(I);
-			    int tmp = numbers[I-1];
-			    numbers[I - 1] = numbers[posicion];
-			    numbers[posicion] = tmp;
-			}	
-			
-			//Add the numbers to the matrix
+
 			int numberTemp = 0;
 			for (int I = 0; I < coefficientMatrix.length; I++) {
 				for (int J = 0; J < coefficientMatrix.length; J++) {
@@ -142,24 +125,24 @@ public class Battlefield {
 	 * @return The product of the matrices that arrived by parameter
 	 * 
 	 */
-	public int[][]  multiplyMatrices() throws Exception {
-	    currentBattleMatrix = new int[lastBattleMatrix.length][coefficientMatrix[0].length];
-	    
-	    if (lastBattleMatrix[0].length == coefficientMatrix.length) {
-	        for (int I = 0; I < lastBattleMatrix.length; I++) {
-	            for (int J = 0; J < coefficientMatrix[0].length; J++) {
-	                for (int K = 0; K < lastBattleMatrix[0].length; K++) {
-	                    currentBattleMatrix[I][J] += lastBattleMatrix[I][K] * coefficientMatrix[K][J];
-	                }
-	            }
-	        }
-	    }else {
-	    	throw new Exception("It is impossible to multiply the Matrices");
-	    }
-	    
-	    return currentBattleMatrix;
+	public int[][] multiplyMatrices() throws Exception {
+		currentBattleMatrix = new int[lastBattleMatrix.length][coefficientMatrix[0].length];
+
+		if (lastBattleMatrix[0].length == coefficientMatrix.length) {
+			for (int I = 0; I < lastBattleMatrix.length; I++) {
+				for (int J = 0; J < coefficientMatrix[0].length; J++) {
+					for (int K = 0; K < lastBattleMatrix[0].length; K++) {
+						currentBattleMatrix[I][J] += lastBattleMatrix[I][K] * coefficientMatrix[K][J];
+					}
+				}
+			}
+		} else {
+			throw new Exception("It is impossible to multiply the Matrices");
+		}
+
+		return currentBattleMatrix;
 	}
-	
+
 	/*
 	 * The method serves to verify if a number is prime
 	 * 
@@ -179,7 +162,7 @@ public class Battlefield {
 		if (number >= 0) {
 			if (number % 2 == 0) {
 				isPrime = false;
-			}else {
+			} else {
 				for (int I = 3; I * I <= number; I += 2) {
 					if (number % I == 0) {
 						isPrime = false;
@@ -213,6 +196,8 @@ public class Battlefield {
 			for (int J = 0; J < currentBattleMatrix[I].length; J++) {
 				if (isPrime(currentBattleMatrix[I][J])) {
 					positionOfTheEnemyShips.add(I + " " + J);
+				} else {
+
 				}
 			}
 		}
@@ -243,7 +228,7 @@ public class Battlefield {
 	public void setCurrentBattleMatrix(int[][] currentBattleMatrix) {
 		this.currentBattleMatrix = currentBattleMatrix;
 	}
-	
+
 	public ArrayList<String> getPositionOfTheEnemyShips() {
 		return positionOfTheEnemyShips;
 	}
