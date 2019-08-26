@@ -49,7 +49,7 @@ public class Battlefield {
 			}
 		} else {
 			int[] numbers = new int[numberOfRows*numberOfColumns];
-			for (int I = 1; I < numberOfRows*numberOfColumns + 1; I++) {
+			for (int I = 1; I < numberOfRows*numberOfColumns; I++) {
 				numbers[I] = I;
 			}
 			
@@ -102,7 +102,7 @@ public class Battlefield {
 			}
 		} else {
 			int[] numbers = new int[numberOfRows*numberOfColumns];
-			for (int I = 1; I < numberOfRows*numberOfColumns + 1; I++) {
+			for (int I = 1; I < numberOfRows*numberOfColumns; I++) {
 				numbers[I] = I;
 			}
 			
@@ -137,26 +137,30 @@ public class Battlefield {
 	 * 
 	 * pre: Matrices to multiply cannot be null or empty (unfilled)
 	 * 
+	 * @throws Exception if it is impossible to multiply the matrices
+	 * 
 	 * @return The product of the matrices that arrived by parameter
 	 * 
 	 */
-	public int[][] multiplyMatrices(int[][] lastBattleMatrix, int[][] coefficientMatrix) {
+	public int[][] multiplyMatrices() throws Exception {
+		if(lastBattleMatrix!=null || coefficientMatrix!=null) {
+			int[][] currentBattleMatrix = new int[lastBattleMatrix.length][coefficientMatrix[0].length];
 
-		int[][] currentBattleMatrix = new int[lastBattleMatrix.length][coefficientMatrix[0].length];
-
-		if (lastBattleMatrix[0].length == coefficientMatrix.length) {
-			for (int I = 0; I < lastBattleMatrix.length; I++) {
-				for (int J = 0; J < coefficientMatrix[0].length; J++) {
-					for (int K = 0; K < lastBattleMatrix[0].length; K++) {
-						currentBattleMatrix[I][J] += lastBattleMatrix[I][K] * coefficientMatrix[K][J];
+			if (lastBattleMatrix[0].length == coefficientMatrix.length) {
+				for (int I = 0; I < lastBattleMatrix.length; I++) {
+					for (int J = 0; J < coefficientMatrix[0].length; J++) {
+						for (int K = 0; K < lastBattleMatrix[0].length; K++) {
+							currentBattleMatrix[I][J] += lastBattleMatrix[I][K] * coefficientMatrix[K][J];
+						}
 					}
 				}
+			} else {
+				throw new Exception("It is impossible to multiply the Matrices");
 			}
-		} else {
-			// lanzar excepcion personalizada: >>>>>>>
-			// ItIsImpossibleToMultiplyTheMatricesPAPUException
+		}else {
+			
 		}
-
+		
 		return currentBattleMatrix;
 	}
 
@@ -167,11 +171,13 @@ public class Battlefield {
 	 * 
 	 * pre: The number received by parameter cannot be negative
 	 * 
+	 * @throws Exception if a negative number is received
+	 * 
 	 * @return boolean that indicates whether the number received by parameter is a
 	 * prime number or not
 	 * 
 	 */
-	public boolean isPrime(int number) {
+	public boolean isPrime(int number) throws Exception {
 		boolean isPrime = true;
 
 		if (number >= 0) {
@@ -185,7 +191,7 @@ public class Battlefield {
 				}
 			}
 		} else {
-			// excepcion personalizada >>> YouCannotWorkWithNegativeNumbersException
+			throw new Exception("You cannot work with negative numbers");
 		}
 
 		return isPrime;
@@ -199,11 +205,13 @@ public class Battlefield {
 	 * 
 	 * pre: The current battle matrix must be different from null
 	 * 
+	 * @throws Eception if the method isPrime fail
+	 * 
 	 * post: The positions of the prime numbers (enemy ships) found were saved in
 	 * the ArrayList positionOfTheEnemyShips
 	 * 
 	 */
-	public void identifyEnemyShips(int[][] currentBattleMatrix) {
+	public void identifyEnemyShips(int[][] currentBattleMatrix) throws Exception {
 
 		for (int I = 0; I < currentBattleMatrix.length; I++) {
 			for (int J = 0; J < currentBattleMatrix[I].length; J++) {

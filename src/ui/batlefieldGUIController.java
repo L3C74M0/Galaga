@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package ui;
 
 import java.net.URL;
@@ -15,132 +14,109 @@ import javafx.stage.StageStyle;
 import model.Battlefield;
 
 public class batlefieldGUIController {
-	
+
 	private Battlefield battlefield;
-	
-    @FXML
-    private ResourceBundle resources;
+	private boolean theLastBattleMatrixHasBeenCreated = false;
+	private boolean theCoefficientMatrixHasBeenCreated = false;
 
-    @FXML
-    private URL location;
+	@FXML
+	private ResourceBundle resources;
 
-    @FXML
-    private TextField numberOfRowsInTheLastBattleMatrix;
+	@FXML
+	private URL location;
 
-    @FXML
-    private TextField numberOfColumnsInTheLastBattleMatrix;
+	@FXML
+	private TextField numberOfRowsInTheLastBattleMatrix;
 
-    @FXML
-    private CheckBox repeatNumbersInTheLastBattleMatrix;
+	@FXML
+	private TextField numberOfColumnsInTheLastBattleMatrix;
 
-    @FXML
-    private CheckBox repeatNumbersInTheCoefficientMatrix;
+	@FXML
+	private CheckBox repeatNumbersInTheLastBattleMatrix;
 
-    @FXML
-    private TextField numberOfRowsInTheCoefficientMatrix;
+	@FXML
+	private CheckBox repeatNumbersInTheCoefficientMatrix;
 
-    @FXML
-    private TextField numberOfColumnsInTheCoefficientMatrix;
+	@FXML
+	private TextField numberOfRowsInTheCoefficientMatrix;
 
-    @FXML
-    private GridPane currentBattleMatrix;
+	@FXML
+	private TextField numberOfColumnsInTheCoefficientMatrix;
 
-    @FXML
-    private ColumnConstraints CurrentBattleMatrix;
+	@FXML
+	private GridPane currentBattleMatrix;
 
-    @FXML
-    void generateCurrentBattleMatrix(ActionEvent event) {
-    	
-    }
+	@FXML
+	private ColumnConstraints CurrentBattleMatrix;
 
-    @FXML
-    void generateLastBattleMatrix(ActionEvent event) {
-    	int value=0;
+	@FXML
+	void generateCurrentBattleMatrix(ActionEvent event) {
+		if (theLastBattleMatrixHasBeenCreated && theCoefficientMatrixHasBeenCreated) {
+			try {
+				battlefield.multiplyMatrices();
+				numberOfRowsInTheLastBattleMatrix.setText("");
+				numberOfColumnsInTheLastBattleMatrix.setText("");
+				numberOfRowsInTheCoefficientMatrix.setText("");
+				numberOfColumnsInTheCoefficientMatrix.setText("");
+			} catch (Exception e) {
+				Alert info = new Alert(AlertType.ERROR);
+				info.setTitle("ERROR");
+				info.setHeaderText(null);
+				info.initStyle(StageStyle.UTILITY);
+				info.setContentText(
+						"It is impossible to multiply the matrices created, since the number of rows in the past battle matrix is different from the number of columns in the coefficient matrix");
+				info.show();
+			}
+		} else {
+			Alert info = new Alert(AlertType.ERROR);
+			info.setTitle("ERROR");
+			info.setHeaderText(null);
+			info.initStyle(StageStyle.UTILITY);
+			info.setContentText(
+					"In order to make the product of the matrices, both have to be created, and the number of rows of the last matrix must be equal to the number of columns of the coefficient matrix");
+			info.show();
+		}
+
+	}
+
+	@FXML
+	void generateLastBattleMatrix(ActionEvent event) {
 		try {
-			value = Integer.parseInt(numberOfRowsInTheLastBattleMatrix.getText());
-			
+			int rows = Integer.parseInt(numberOfRowsInTheLastBattleMatrix.getText());
+			int columns = Integer.parseInt(numberOfColumnsInTheLastBattleMatrix.getText());
+			boolean repeatNumbers = repeatNumbersInTheLastBattleMatrix.isSelected();
+			battlefield.generateTheLastBattleMatrix(rows, columns, repeatNumbers);
+			theLastBattleMatrixHasBeenCreated = true;
 		} catch (NumberFormatException e) {
 			Alert info = new Alert(AlertType.ERROR);
 			info.setTitle("ERROR");
 			info.setHeaderText(null);
 			info.initStyle(StageStyle.UTILITY);
-			info.setContentText("Please enter an integer greater than zero");
+			info.setContentText("Please enter a couple of integers greater than zero (One number for each box)");
 			info.show();
 		}
-    }
+	}
 
-    @FXML
-    void generateMatrixOfCoefficients(ActionEvent event) {
-    	
-    }
-
-    @FXML
-    void initialize() {
-    	
-    }
-}
-=======
-package ui;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import model.Battlefield;
-
-public class batlefieldGUIController implements Initializable {
-	
-	Battlefield battleField;
-	
-
-    @FXML
-    private Button producButon;
-
-    @FXML
-    private GridPane actualMatriz;
-
-    @FXML
-    private GridPane producMatrix;
-
-    @FXML
-    private GridPane resultMatrix;
-
-	
-	
-	public void fillMatrix(int[][]A,GridPane r) {
-		for (int i = 0; i < A.length-1; i++) {
-			for (int j = 0; j < A.length-1; j++) {
-				TextField m = new TextField();
-				m.setText(""+A[i][j]);
-				r.add(m,j,i);
-			}
+	@FXML
+	void generateMatrixOfCoefficients(ActionEvent event) {
+		try {
+			int rows = Integer.parseInt(numberOfRowsInTheCoefficientMatrix.getText());
+			int columns = Integer.parseInt(numberOfColumnsInTheCoefficientMatrix.getText());
+			boolean repeatNumbers = repeatNumbersInTheLastBattleMatrix.isSelected();
+			battlefield.generateTheCoefficientMatrix(rows, columns, repeatNumbers);
+			theCoefficientMatrixHasBeenCreated = true;
+		} catch (NumberFormatException e) {
+			Alert info = new Alert(AlertType.ERROR);
+			info.setTitle("ERROR");
+			info.setHeaderText(null);
+			info.initStyle(StageStyle.UTILITY);
+			info.setContentText("Please enter a couple of integers greater than zero (One number for each box)");
+			info.show();
 		}
 	}
-	
-	public void fillAcutalPotitionsMatrix(int[][]A,GridPane r) {
-		for (int i = 0; i < A.length-1; i++) {
-			for (int j = 0; j < A.length-1; j++) {
-				if(battleField.isPrime(A[i][j])) {
-				TextField m = new TextField();
-				m.setText(""+A[i][j]);
-				r.add(m,j,i);
-				}
-				else {
-				TextField m = new TextField();
-				r.add(m,j,i);
-				}
-			}
-		}
-	}
-	
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		battleField = new Battlefield();
-	}
 
+	@FXML
+	void initialize() {
+		battlefield = new Battlefield();
+	}
 }
->>>>>>> bd8626129c376499f5f97b8fcac076a85a46a853
