@@ -13,7 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.StageStyle;
 import model.Battlefield;
 
-public class batlefieldGUIController {
+public class BatlefieldGUIController {
 
 	private Battlefield battlefield;
 	private boolean theLastBattleMatrixHasBeenCreated = false;
